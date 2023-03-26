@@ -1,3 +1,16 @@
+# UCopter's flavour of ArduPilot 
+
+![UCopter-logo](docs/logos/UCopter-logo.png)
+
+UCopter project is meant to be a custom framework for
+tests and development of complete autonomous UAV systems, intended to be used by researchers and engineers working in academia. 
+
+Its purpose, is to allow for ~~easy~~ relatively painless practical implementation of theoretical novel control strategies (on every level of control stack). 
+
+The following package is the pillars of the project, UCopter's core is based on ArduPilot's Copter 4.3 version and since then is developed independently.
+
+
+
 # ArduPilot Project
 
 <a href="https://ardupilot.org/discord"><img src="https://img.shields.io/discord/674039678562861068.svg" alt="Discord">
