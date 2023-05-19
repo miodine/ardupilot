@@ -145,3 +145,5 @@ dumpstack_*out
 build.tmp.binaries/
 tasklist.json
 modules/esp_idf
+ArduCopter/viz_layout_nnao.xml
+ArduCopter/QGroundControl.AppImage
