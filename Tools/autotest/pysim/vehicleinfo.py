@@ -343,6 +343,10 @@ class VehicleInfo(object):
                 "extra_mavlink_cmds": "module load sitl_calibration;",
                 "external": True,  # lies!  OTOH, hard to take off with this
             },
+            "gazebo-quadplane": {
+                "waf_target": "bin/arduplane",
+                "default_params_filename": "default_params/gazebo_quadplane.parm",
+            },
         },
     },
     "Rover": {
