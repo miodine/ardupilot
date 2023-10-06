@@ -124,6 +124,40 @@ MAV_STATE GCS_MAVLINK_Plane::vehicle_system_status() const
     return MAV_STATE_STANDBY;
 }
 
+void GCS_MAVLINK_Plane::send_attitude_target() {
+    
+    float target_r = 0.0f;
+    float target_p = 0.0f;
+    float target_y = 0.0f;
+
+    if (!(plane.g2.flight_options & FlightOptions::GCS_REMOVE_TRIM_PITCH_CD)) {
+        target_p -= radians(plane.g.pitch_trim_cd * 0.01f);
+    }
+
+#if HAL_QUADPLANE_ENABLED
+    if (plane.quadplane.show_vtol_view()) {
+        const Vector3f rate_targets = plane.quadplane.attitude_control->rate_bf_targets();
+
+        target_r = rate_targets.x;
+        target_p = rate_targets.y;
+        target_y = rate_targets.z;
+    }
+#endif
+    const uint16_t typemask = 0; // do not ignore anything
+
+    Quaternion quat = plane.quadplane.attitude_control->get_attitude_target_quat();
+    const float quat_out[4] {quat.q1, quat.q2, quat.q3, quat.q4};
+  
+    mavlink_msg_attitude_target_send(
+        chan,
+        AP_HAL::millis(),       // time since boot (ms)
+        typemask,               // Bitmask that tells the system what control dimensions should be ignored by the vehicle
+        quat_out,               // Attitude quaternion [w, x, y, z] order, zero-rotation is [1, 0, 0, 0], unit-length
+        target_r,              // roll rate (rad/s)
+        target_p,              // pitch rate (rad/s)
+        target_y,              // yaw rate (rad/s)
+        0.0f);                // Collective thrust, normalized to 0 .. 1
+}
 
 void GCS_MAVLINK_Plane::send_attitude() const
 {
@@ -613,6 +647,7 @@ static const ap_message STREAM_RC_CHANNELS_msgs[] = {
 };
 static const ap_message STREAM_EXTRA1_msgs[] = {
     MSG_ATTITUDE,
+    MSG_ATTITUDE_TARGET,
     MSG_SIMSTATE,
     MSG_AHRS2,
 #if AP_RPM_ENABLED
