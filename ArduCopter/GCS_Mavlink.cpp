@@ -75,6 +75,8 @@ MAV_STATE GCS_MAVLINK_Copter::vehicle_system_status() const
         return MAV_STATE_STANDBY;
     }
 
+
+
     return MAV_STATE_ACTIVE;
 }
 
