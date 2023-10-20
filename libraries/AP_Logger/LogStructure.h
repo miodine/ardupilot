@@ -697,10 +697,8 @@ struct PACKED log_VER {
     uint8_t patch;
     uint8_t fw_type;
     uint32_t git_hash;
-    uint8_t build_type;
     char fw_string[64];
     uint16_t _APJ_BOARD_ID;
-    
 };
 
 
